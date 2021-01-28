@@ -13,43 +13,45 @@ int MyFunction(std::string choisi_ton_mot)
     char u_recherche; // appuye sur un boutton pour demarrer
 
     std::string mot_secret(choisi_ton_mot.length(), '-'); // length = longueur du mot, le reste c'est pour le cacher
-    while (i < 999)                                       // 99 car on ne sait pas combien de fois on doit repeter la boucle
+    int tries = 0;
+    while (tries < 999)
     {
-        std::cout << "JUST POUR VOIR LE NOMBRE DE FAUTE ET I EN COURS ... " << faute << i << std::endl;
         std::cout << "nombre de faute actuel: " << faute << std::endl; //interface de jeu
         std::cout << mot_secret << std::endl;
         std::cout << "ecrire une lettre ici: ";
         std::cin >> u_recherche;
 
-        std::cout << "________________________________________________________" << std::endl;
-
-        for (int i = 0; i < mot_secret.length(); i++) // pour check chaque lettre [i]
+        bool guess_wrong = true;
+        for (int i = 0; i < mot_secret.length(); i++) // to check each letter
         {
-            if (choisi_ton_mot[i] == u_recherche) //l'utilisateur a eu juste
+            if (choisi_ton_mot[i] == u_recherche) //guess right
             {
-                mot_secret[i] = u_recherche; // si ma lettre est juste alors "- = lettre"
+                guess_wrong = false;
+                mot_secret[i] = u_recherche; // if right change "-" to the right letter
                 std::cout << "lettre trouver ! " << std::endl;
             }
- }
-            if (choisi_ton_mot[i] != u_recherche) //l'utilisateur a eu faux
-            {
-                std::cout << "rater !" << std::endl;
-                faute++;
-            }
+        }
+        if (guess_wrong)
+        {
 
-            // partie fini:
-            if (mot_secret == choisi_ton_mot) // parti fini si mot trouver
-            {
-                std::cout << "ggs";
-                break;
-            }
-            if (faute == 9)
-            { //parti fini si y'a eu pendu
-                std::cout << "perdu !" << std::endl;
-                std::cout << "le mot etait" << choisi_ton_mot << std::endl;
-                break;
-            }
-       
+            std::cout << "rater !" << std::endl;
+            faute++; 
+        }
+
+        // partie fini:
+        if (mot_secret == choisi_ton_mot) // parti fini si mot trouver
+        {
+            std::cout << "ggs";
+            break;
+        }
+
+        if (faute == 9)
+        { //parti fini si y'a eu pendu
+            std::cout << "perdu !" << std::endl;
+            std::cout << "le mot etait" << choisi_ton_mot << std::endl;
+            break;
+        }
+
         i++;
     }
 
@@ -70,7 +72,7 @@ int main()
 
     // on genere un nombre aleatoire et on lance la parti on fonction des cas (case)
     srand((unsigned)time(0));
-    printf("Vous etes tombe sur le mot numero: \n ");
+    printf("Vous etes tombe sur le mot numero:  ");
     int generer_un_mot = 1 + (rand() % 11);
     printf("%d \n", generer_un_mot);
 
